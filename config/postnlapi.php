@@ -1,15 +1,15 @@
 <?php
 
 return [
-	'api'		=> [
-		'url'		=> '',
-		'key'		=> '',
-	],
+    'api'		=> [
+        'url'		=> '',
+        'key'		=> '',
+    ],
 
-	// Your can override this by passing a customer attribute to the functions
-	'customer' 	=>	[
-		'code'		=> '',
-		'number'	=> '',
-		'location'	=> '',
-	]
+    // Your can override this by passing a customer attribute to the functions
+    'customer' 	=> [
+        'code'		   => '',
+        'number'	  => '',
+        'location'	=> '',
+    ],
 ];
