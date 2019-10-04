@@ -16,4 +16,9 @@ class PostNLAPI
 
         return $barcode['Barcode'];
     }
+
+    public function generateLabel(
+    ) {
+    	$client = new Client();
+    }
 }
