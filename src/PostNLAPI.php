@@ -11,7 +11,8 @@ class PostNLAPI
 		$serie 	= "000000000-999999999",
 		$customer = null
 	){
-		$client = new Client();
-		
+		$client 	= new Client();
+		$barcode 	= Client::get("shipment/v1_1/barcode?Type=".$type."&Serie=".$serie, $customer);
+		dd($barcode); 
 	}
 }
