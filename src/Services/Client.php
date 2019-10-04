@@ -26,6 +26,16 @@ class Client
 		}
 	}
 
+	private static function handleResponse($data)
+	{
+		try {
+			return json_decode($data, true);
+		} catch (Exception $e) {
+			report($e);
+			return false;
+		}
+	}
+
 	public static function get($url = "", $customer = null)
 	{	
 		$fullUrl = self::prepareUrl($url, $customer);
@@ -34,7 +44,7 @@ class Client
 			$response = self::$client->request('GET', $fullUrl);	
 
 			if ($response->getStatusCode() != 200) {
-				return $response->getBody();
+				return self::handleResponse($response->getBody());
 			} else {
 				throw new Exception("PostNL not reporting 200 status", 1);
 			}
@@ -54,7 +64,7 @@ class Client
 			]);	
 
 			if ($response->getStatusCode() != 200) {
-				return $response->getBody();
+				return self::handleResponse($response->getBody());
 			} else {
 				throw new Exception("PostNL not reporting 200 status", 1);
 			}
