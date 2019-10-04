@@ -4,6 +4,7 @@ Laravel PostNL API package
 [![Total Downloads](https://poser.pugx.org/deniztezcan/laravel-postnl-api/downloads)](https://packagist.org/packages/deniztezcan/laravel-postnl-api)
 [![Latest Unstable Version](https://poser.pugx.org/deniztezcan/laravel-postnl-api/v/unstable)](https://packagist.org/packages/deniztezcan/laravel-postnl-api)
 [![License](https://poser.pugx.org/deniztezcan/laravel-postnl-api/license)](https://packagist.org/packages/deniztezcan/laravel-postnl-api)
+[![StyleCI](https://github.styleci.io/repos/212767317/shield?branch=master)](https://github.styleci.io/repos/212767317/shield?branch=master)
 
 Intergrates the PostNL API with Laravel 5 & 6 via a ServiceProvider and Facade.
 
