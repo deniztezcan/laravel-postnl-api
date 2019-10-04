@@ -13,6 +13,6 @@ class PostNLAPI
 	){
 		$client 	= new Client();
 		$barcode 	= $client::get("shipment/v1_1/barcode?Type=".$type."&Serie=".$serie, $customer);
-		return $barcode['Barcode'];
+		return $barcode['Barcode']; 
 	}
 }
