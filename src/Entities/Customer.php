@@ -4,7 +4,7 @@ namespace DenizTezcan\LaravelPostNLAPI\Entities;
 
 class Customer extends AbstractEntity
 {
-	protected $Address;
+    protected $Address;
     protected $CollectionLocation;
     protected $ContactPerson;
     protected $CustomerCode;
@@ -32,5 +32,4 @@ class Customer extends AbstractEntity
         $this->setName($name);
         $this->setAddress($address);
     }
-
 }

@@ -4,7 +4,7 @@ namespace DenizTezcan\LaravelPostNLAPI\Entities;
 
 class Address extends AbstractEntity
 {
-	protected $AddressType;
+    protected $AddressType;
     protected $Area;
     protected $Buildingname;
     protected $City;
@@ -24,7 +24,7 @@ class Address extends AbstractEntity
     protected $Zipcode;
     protected $other;
 
-   public function __construct(
+    public function __construct(
         $addressType = null,
         $firstName = null,
         $name = null,
@@ -64,5 +64,4 @@ class Address extends AbstractEntity
         $this->setRemark($remark);
         $this->setStreetHouseNrExt($streetHouseNrExt);
     }
-
 }
