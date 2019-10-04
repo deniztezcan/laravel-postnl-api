@@ -19,6 +19,6 @@ class PostNLAPI
 
     public function generateLabel(
     ) {
-    	$client = new Client();
+        $client = new Client();
     }
 }
