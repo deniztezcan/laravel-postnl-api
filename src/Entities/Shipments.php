@@ -4,7 +4,7 @@ namespace DenizTezcan\LaravelPostNLAPI\Entities;
 
 class Shipments extends AbstractEntity
 {
-	protected $Addresses;
+    protected $Addresses;
     protected $Barcode;
     protected $Contacts;
     protected $DeliveryAddress;
@@ -14,24 +14,23 @@ class Shipments extends AbstractEntity
     protected $Groups;
 
     public function __construct(
-    	Address $addresses,
-	    $barcode = "",
-	    Contact $contacts,
-	    $deliveryAddress = 1,
-	    $productCodeDelivery = 1,
-	    $reference = "",
-	    $remark = "",
-	    $groups = null
-    )
-    {
+        Address $addresses,
+        $barcode,
+        Contact $contacts,
+        $deliveryAddress = 1,
+        $productCodeDelivery = 1,
+        $reference = '',
+        $remark = '',
+        $groups = null
+    ) {
         parent::__construct();
         $this->setAddresses([$addresses]);
-	    $this->setBarcode($barcode);
-	    $this->setContacts([$contacts]);
-	    $this->setDeliveryAddress($deliveryAddress);
-	    $this->setProductCodeDelivery($productCodeDelivery);
-	    $this->setReference($reference);
-	    $this->setRemark($remark);
-	    $this->setGroups($groups);
+        $this->setBarcode($barcode);
+        $this->setContacts([$contacts]);
+        $this->setDeliveryAddress($deliveryAddress);
+        $this->setProductCodeDelivery($productCodeDelivery);
+        $this->setReference($reference);
+        $this->setRemark($remark);
+        $this->setGroups($groups);
     }
 }
