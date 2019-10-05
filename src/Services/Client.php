@@ -4,12 +4,18 @@ namespace DenizTezcan\LaravelPostNLAPI\Services;
 
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
+use DenizTezcan\LaravelPostNLAPI\Entities\Customer;
 
 class Client
 {
     protected static $client;
 
     public function __construct()
+    {
+        self::initGuzzleClient();
+    }
+
+    private static function initGuzzleClient()
     {
         self::$client = new GuzzleClient();
     }
@@ -18,12 +24,7 @@ class Client
     {
         $fullUrl = config('postnlapi.api.url');
         $fullUrl .= $url;
-        if (null === $customer) {
-            $fullUrl .= '&CustomerCode='.config('postnlapi.customer.code').'&CustomerNumber='.config('postnlapi.customer.number');
-        } else {
-            $fullUrl .= '&CustomerCode='.$customer['code'].'&CustomerNumber='.$customer['number'];
-        }
-
+        $fullUrl .= '&CustomerCode='.$customer->getCustomerCode().'&CustomerNumber='.$customer->getCustomerNumber();
         return $fullUrl;
     }
 
@@ -38,9 +39,9 @@ class Client
         }
     }
 
-    public static function get($url = '', $customer = null)
+    public static function get($url = '', $customer)
     {
-        $fullUrl = self::prepareUrl($url, $customer);
+        $fullUrl = self::prepareUrl($url);
 
         try {
             $response = self::$client->request('GET', $fullUrl, [
@@ -51,6 +52,7 @@ class Client
             ]);
 
             if ($response->getStatusCode() == 200) {
+                self::initGuzzleClient();
                 return self::handleResponse($response->getBody());
             } else {
                 throw new Exception('PostNL not reporting 200 status', 1);
@@ -62,7 +64,7 @@ class Client
         }
     }
 
-    public static function post($url = '', $data = [], $customer = null)
+    public static function post($url = '', $data = [], $customer)
     {
         $fullUrl = self::prepareUrl($url, $customer);
 
@@ -76,6 +78,7 @@ class Client
             ]);
 
             if ($response->getStatusCode() == 200) {
+                self::initGuzzleClient();
                 return self::handleResponse($response->getBody());
             } else {
                 throw new Exception('PostNL not reporting 200 status', 1);
