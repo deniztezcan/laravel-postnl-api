@@ -27,7 +27,7 @@ class PostNLAPI
                 ]),
                 'Email'              => config('postnlapi.customer.email'),
             ]);
-        }else{
+        } else {
             $this->customer = $customer;
         }
     }
@@ -43,14 +43,14 @@ class PostNLAPI
     }
 
     public function generateLabel(
-        $printerType = ""
+        $printerType = ''
     ) {
         $client = new Client();
 
         $generateData = new stdClass();
         $generateData->customer = $this->customer;
         $generateData->Message = LabellingMessage::create([
-            'Printertype' => $printerType
+            'Printertype' => $printerType,
         ]);
         $generateData->Shipments = Shipments::create([
         ]);
