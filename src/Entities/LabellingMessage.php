@@ -9,7 +9,7 @@ class LabellingMessage extends AbstractEntity
     public function __construct(
         $printerType = 'GraphicFile|PDF'
     ) {
-    	parent::__construct();
+        parent::__construct();
         $this->setPrintertype($printerType);
     }
 }

@@ -2,9 +2,12 @@
 
 namespace DenizTezcan\LaravelPostNLAPI;
 
-use DenizTezcan\LaravelPostNLAPI\Services\{Client, Converter};
-use DenizTezcan\LaravelPostNLAPI\Entities\{Customer, Address, LabellingMessage, Shipments, Contact};
-use stdClass;
+use DenizTezcan\LaravelPostNLAPI\Entities\Address;
+use DenizTezcan\LaravelPostNLAPI\Entities\Customer;
+use DenizTezcan\LaravelPostNLAPI\Entities\LabellingMessage;
+use DenizTezcan\LaravelPostNLAPI\Entities\Shipments;
+use DenizTezcan\LaravelPostNLAPI\Services\Client;
+use DenizTezcan\LaravelPostNLAPI\Services\Converter;
 
 class PostNLAPI
 {
@@ -42,7 +45,7 @@ class PostNLAPI
 
         return $barcode['Barcode'];
     }
-    
+
     public function generateLabel(
         $barcode,
         $printerType,
@@ -54,10 +57,10 @@ class PostNLAPI
         $remark
     ) {
         $client = new Client();
-        $data   = Converter::Label(
-            $this->customer, 
+        $data = Converter::Label(
+            $this->customer,
             LabellingMessage::create([
-                'Printertype' => $printerType
+                'Printertype' => $printerType,
             ]),
             Shipments::create([
                 'Addresses'             => $address,
@@ -66,19 +69,20 @@ class PostNLAPI
                 'DeliveryAddress'       => $deliveryAddress,
                 'ProductCodeDelivery'   => $productCodeDelivery,
                 'Reference'             => $reference,
-                'Remark'                => $remark
+                'Remark'                => $remark,
             ])
         );
 
         $label = $client::post('shipment/v2_2/label?confirm=true', $data, $this->customer);
+
         return $label['ResponseShipments'][0]['Labels'];
     }
 
     public function nearestLocations(
-        $countryCode = "NL",
-        $postalCode = "1111AA",
-        $deliveryOptions = "PG"
-    ){
+        $countryCode = 'NL',
+        $postalCode = '1111AA',
+        $deliveryOptions = 'PG'
+    ) {
         $client = new Client();
         $locations = $client::get('shipment/v2_1/locations/nearest?CountryCode='.$countryCode.'&PostalCode='.$postalCode.'&DeliveryOptions='.$deliveryOptions, $this->customer);
 

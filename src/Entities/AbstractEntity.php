@@ -3,7 +3,6 @@
 namespace DenizTezcan\LaravelPostNLAPI\Entities;
 
 use Exception;
-use Illuminate\Support\Str;
 use ReflectionClass;
 
 abstract class AbstractEntity
