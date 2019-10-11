@@ -4,11 +4,11 @@ namespace DenizTezcan\LaravelPostNLAPI\Entities;
 
 class Contact extends AbstractEntity
 {
-	protected $ContactType;
+    protected $ContactType;
     protected $Email;
     protected $SMSNr;
     protected $TelNr;
-    
+
     public function __construct($contactType = null, $email = null, $smsNr = null, $telNr = null)
     {
         parent::__construct();

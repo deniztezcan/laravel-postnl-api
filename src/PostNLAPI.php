@@ -28,7 +28,7 @@ class PostNLAPI
                 ]),
                 'Email'              => config('postnlapi.customer.email'),
             ]);
-        }else{
+        } else {
             $this->customer = $customer;
         }
     }

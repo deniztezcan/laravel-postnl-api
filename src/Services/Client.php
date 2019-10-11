@@ -4,7 +4,6 @@ namespace DenizTezcan\LaravelPostNLAPI\Services;
 
 use Exception;
 use GuzzleHttp\Client as GuzzleClient;
-use DenizTezcan\LaravelPostNLAPI\Entities\Customer;
 
 class Client
 {
@@ -25,6 +24,7 @@ class Client
         $fullUrl = config('postnlapi.api.url');
         $fullUrl .= $url;
         $fullUrl .= '&CustomerCode='.$customer->getCustomerCode().'&CustomerNumber='.$customer->getCustomerNumber();
+
         return $fullUrl;
     }
 
@@ -39,7 +39,7 @@ class Client
         }
     }
 
-    public static function get($url = '', $customer)
+    public static function get($url, $customer)
     {
         $fullUrl = self::prepareUrl($url, $customer);
 
@@ -53,6 +53,7 @@ class Client
 
             if ($response->getStatusCode() == 200) {
                 self::initGuzzleClient();
+
                 return self::handleResponse($response->getBody());
             } else {
                 throw new Exception('PostNL not reporting 200 status', 1);
@@ -64,7 +65,7 @@ class Client
         }
     }
 
-    public static function post($url = '', $data = [], $customer)
+    public static function post($url, $data, $customer)
     {
         $fullUrl = config('postnlapi.api.url').$url;
 
@@ -79,6 +80,7 @@ class Client
 
             if ($response->getStatusCode() == 200) {
                 self::initGuzzleClient();
+
                 return self::handleResponse($response->getBody());
             } else {
                 throw new Exception('PostNL not reporting 200 status', 1);
