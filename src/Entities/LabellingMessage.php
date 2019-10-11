@@ -2,16 +2,14 @@
 
 namespace DenizTezcan\LaravelPostNLAPI\Entities;
 
-class LabellingMessage extends Message
+class LabellingMessage extends AbstractEntity
 {
     protected $Printertype;
 
     public function __construct(
-        $printerType = 'GraphicFile|PDF',
-        $mid = null,
-        $timestamp = null
+        $printerType = 'GraphicFile|PDF'
     ) {
-        parent::__construct($mid, $timestamp);
+    	parent::__construct();
         $this->setPrintertype($printerType);
     }
 }

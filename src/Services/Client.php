@@ -41,7 +41,7 @@ class Client
 
     public static function get($url = '', $customer)
     {
-        $fullUrl = self::prepareUrl($url);
+        $fullUrl = self::prepareUrl($url, $customer);
 
         try {
             $response = self::$client->request('GET', $fullUrl, [
@@ -66,7 +66,7 @@ class Client
 
     public static function post($url = '', $data = [], $customer)
     {
-        $fullUrl = self::prepareUrl($url, $customer);
+        $fullUrl = config('postnlapi.api.url').$url;
 
         try {
             $response = self::$client->request('POST', $fullUrl, [
@@ -74,7 +74,7 @@ class Client
                     'Content-Type' 	=> 'application/json; charset=UTF-8',
                     'apikey'		      => config('postnlapi.api.key'),
                 ],
-                'form_params' => $data,
+                'json' => $data,
             ]);
 
             if ($response->getStatusCode() == 200) {

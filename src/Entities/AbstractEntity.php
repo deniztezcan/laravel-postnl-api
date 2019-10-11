@@ -8,13 +8,6 @@ use ReflectionClass;
 
 abstract class AbstractEntity
 {
-    protected $id;
-
-    public function __construct()
-    {
-        $this->id = Str::uuid();
-    }
-
     public static function create(array $properties = [])
     {
         if (get_called_class() === __CLASS__) {
@@ -35,8 +28,6 @@ abstract class AbstractEntity
             $instance->{'set'.$name}($value);
         }
 
-        $instance->id = Str::uuid();
-
         return $instance;
     }
 
@@ -44,10 +35,6 @@ abstract class AbstractEntity
     {
         $methodName = substr($name, 0, 3);
         $propertyName = substr($name, 3, strlen($name));
-
-        if ($propertyName === 'Id') {
-            $propertyName = 'id';
-        }
 
         if ($methodName === 'get') {
             if (property_exists($this, $propertyName)) {

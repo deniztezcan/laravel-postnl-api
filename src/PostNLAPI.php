@@ -2,14 +2,15 @@
 
 namespace DenizTezcan\LaravelPostNLAPI;
 
-use DenizTezcan\LaravelPostNLAPI\Services\Client;
+use DenizTezcan\LaravelPostNLAPI\Services\{Client, Converter};
+use DenizTezcan\LaravelPostNLAPI\Entities\{Customer, Address, LabellingMessage, Shipments, Contact};
 use stdClass;
 
 class PostNLAPI
 {
     protected $customer;
 
-    public function __constructor($customer = null)
+    public function __construct($customer = null)
     {
         if (null === $customer) {
             $this->customer = Customer::create([
@@ -41,20 +42,46 @@ class PostNLAPI
 
         return $barcode['Barcode'];
     }
-
+    
     public function generateLabel(
-        $printerType = ""
+        $barcode,
+        $printerType,
+        $address,
+        $contact,
+        $deliveryAddress,
+        $productCodeDelivery,
+        $reference,
+        $remark
     ) {
         $client = new Client();
+        $data   = Converter::Label(
+            $this->customer, 
+            LabellingMessage::create([
+                'Printertype' => $printerType
+            ]),
+            Shipments::create([
+                'Addresses'             => $address,
+                'Barcode'               => $barcode,
+                'Contacts'              => $contact,
+                'DeliveryAddress'       => $deliveryAddress,
+                'ProductCodeDelivery'   => $productCodeDelivery,
+                'Reference'             => $reference,
+                'Remark'                => $remark
+            ])
+        );
 
-        $generateData = new stdClass();
-        $generateData->customer = $this->customer;
-        $generateData->Message = LabellingMessage::create([
-            'Printertype' => $printerType
-        ]);
-        $generateData->Shipments = Shipments::create([
-        ]);
+        $label = $client::post('shipment/v2_2/label?confirm=true', $data, $this->customer);
+        return $label['ResponseShipments'][0]['Labels'];
+    }
 
-        $label = $client::post('shipment/v2_1/label?confirm=true', $generateData, $this->customer);
+    public function nearestLocations(
+        $countryCode = "NL",
+        $postalCode = "1111AA",
+        $deliveryOptions = "PG"
+    ){
+        $client = new Client();
+        $locations = $client::get('shipment/v2_1/locations/nearest?CountryCode='.$countryCode.'&PostalCode='.$postalCode.'&DeliveryOptions='.$deliveryOptions, $this->customer);
+
+        return $locations['GetLocationsResult']['ResponseLocation'];
     }
 }
