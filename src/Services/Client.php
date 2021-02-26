@@ -2,8 +2,8 @@
 
 namespace DenizTezcan\LaravelPostNLAPI\Services;
 
-use Throwable;
 use GuzzleHttp\Client as GuzzleClient;
+use Throwable;
 
 class Client
 {
@@ -43,13 +43,14 @@ class Client
 
         $response = self::$client->request('GET', $fullUrl, [
             'headers' => [
-                'Content-Type'  => 'application/json; charset=UTF-8',
+                'Content-Type'        => 'application/json; charset=UTF-8',
                 'apikey'              => config('postnlapi.api.key'),
             ],
         ]);
 
         if ($response->getStatusCode() == 200) {
             self::initGuzzleClient();
+
             return self::handleResponse($response->getBody());
         } else {
             throw new Throwable('PostNL not reporting 200 status', 1);
@@ -62,7 +63,7 @@ class Client
 
         $response = self::$client->request('POST', $fullUrl, [
             'headers' => [
-                'Content-Type'  => 'application/json; charset=UTF-8',
+                'Content-Type'        => 'application/json; charset=UTF-8',
                 'apikey'              => config('postnlapi.api.key'),
             ],
             'json' => $data,
