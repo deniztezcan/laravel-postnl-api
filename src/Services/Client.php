@@ -2,7 +2,7 @@
 
 namespace DenizTezcan\LaravelPostNLAPI\Services;
 
-use Exception;
+use Throwable;
 use GuzzleHttp\Client as GuzzleClient;
 
 class Client
@@ -32,10 +32,8 @@ class Client
     {
         try {
             return json_decode($data, true);
-        } catch (Exception $e) {
-            report($e);
-
-            return false;
+        } catch (Throwable $e) {
+            return report($e);
         }
     }
 
@@ -43,25 +41,18 @@ class Client
     {
         $fullUrl = self::prepareUrl($url, $customer);
 
-        try {
-            $response = self::$client->request('GET', $fullUrl, [
-                'headers' => [
-                    'Content-Type' 	=> 'application/json; charset=UTF-8',
-                    'apikey'		      => config('postnlapi.api.key'),
-                ],
-            ]);
+        $response = self::$client->request('GET', $fullUrl, [
+            'headers' => [
+                'Content-Type'  => 'application/json; charset=UTF-8',
+                'apikey'              => config('postnlapi.api.key'),
+            ],
+        ]);
 
-            if ($response->getStatusCode() == 200) {
-                self::initGuzzleClient();
-
-                return self::handleResponse($response->getBody());
-            } else {
-                throw new Exception('PostNL not reporting 200 status', 1);
-            }
-        } catch (Exception $e) {
-            report($e);
-
-            return false;
+        if ($response->getStatusCode() == 200) {
+            self::initGuzzleClient();
+            return self::handleResponse($response->getBody());
+        } else {
+            throw new Throwable('PostNL not reporting 200 status', 1);
         }
     }
 
@@ -69,26 +60,20 @@ class Client
     {
         $fullUrl = config('postnlapi.api.url').$url;
 
-        try {
-            $response = self::$client->request('POST', $fullUrl, [
-                'headers' => [
-                    'Content-Type' 	=> 'application/json; charset=UTF-8',
-                    'apikey'		      => config('postnlapi.api.key'),
-                ],
-                'json' => $data,
-            ]);
+        $response = self::$client->request('POST', $fullUrl, [
+            'headers' => [
+                'Content-Type'  => 'application/json; charset=UTF-8',
+                'apikey'              => config('postnlapi.api.key'),
+            ],
+            'json' => $data,
+        ]);
 
-            if ($response->getStatusCode() == 200) {
-                self::initGuzzleClient();
+        if ($response->getStatusCode() == 200) {
+            self::initGuzzleClient();
 
-                return self::handleResponse($response->getBody());
-            } else {
-                throw new Exception('PostNL not reporting 200 status', 1);
-            }
-        } catch (Exception $e) {
-            report($e);
-
-            return false;
+            return self::handleResponse($response->getBody());
+        } else {
+            throw new Throwable('PostNL not reporting 200 status', 1);
         }
     }
 }
