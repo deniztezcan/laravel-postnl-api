@@ -33,7 +33,7 @@ class Converter
         $data->Message = new \stdClass();
         $data->Message->MessageID = 1;
         $data->Message->MessageTimeStamp = Carbon::now()->format('d-m-Y H:i:s');
-        $data->Message->Printertype = 'GraphicFile|PDF';
+        $data->Message->Printertype = $message->Printertype;
 
         $shipmentsAddresses = [];
         foreach ($shipments->getAddresses() as $shipmentAddress) {
