@@ -4,6 +4,7 @@ namespace DenizTezcan\LaravelPostNLAPI;
 
 use DenizTezcan\LaravelPostNLAPI\Entities\Address;
 use DenizTezcan\LaravelPostNLAPI\Entities\Customer;
+use DenizTezcan\LaravelPostNLAPI\Entities\Group;
 use DenizTezcan\LaravelPostNLAPI\Entities\LabellingMessage;
 use DenizTezcan\LaravelPostNLAPI\Entities\Shipments;
 use DenizTezcan\LaravelPostNLAPI\Services\Client;
@@ -76,6 +77,58 @@ class PostNLAPI
         $label = $client::post('shipment/v2_2/label?confirm=true', $data, $this->customer);
 
         return $label['ResponseShipments'][0]['Labels'];
+    }
+
+    public function generateMultiColloLabel(
+        $mainbarcode,
+        $barcodes,
+        $printerType,
+        $address,
+        $contact,
+        $deliveryAddress,
+        $productCodeDelivery,
+        $reference,
+        $remark
+    ) {
+        $client = new Client();
+        $shipments = [];
+        $sequence = 1;
+
+        foreach ($barcodes as $barcode) {
+            $shipments[] = Shipments::create([
+                'Addresses'             => $address,
+                'Barcode'               => $barcode,
+                'Contacts'              => $contact,
+                'DeliveryAddress'       => $deliveryAddress,
+                'ProductCodeDelivery'   => $productCodeDelivery,
+                'Reference'             => $reference,
+                'Remark'                => $remark,
+                'Groups'                => Group::create([
+                    'GroupCount'    => count($barcodes),
+                    'GroupSequence' => $sequence,
+                    'GroupType'     => '03',
+                    'MainBarcode'   => $mainbarcode,
+                ]),
+            ]);
+            $sequence++;
+        }
+
+        $data = Converter::MultiLabel(
+            $this->customer,
+            LabellingMessage::create([
+                'Printertype' => $printerType,
+            ]),
+            $shipments
+        );
+
+        $response = $client::post('shipment/v2_2/label?confirm=true', $data, $this->customer);
+        $labels = [];
+
+        foreach ($response['ResponseShipments'] as $label) {
+            $labels[] = $label['Labels'];
+        }
+
+        return $labels;
     }
 
     public function nearestLocations(
