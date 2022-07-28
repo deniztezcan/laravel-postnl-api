@@ -108,7 +108,7 @@ class PostNLAPI
                     'GroupSequence' => $sequence,
                     'GroupType'     => '03',
                     'MainBarcode'   => $mainbarcode,
-                ])
+                ]),
             ]);
             $sequence++;
         }

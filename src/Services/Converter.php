@@ -103,7 +103,7 @@ class Converter
         $shipmentsArr = [];
 
         foreach ($shipments as $shipment) {
-            if(count($shipmentsAddresses) == 0) {
+            if (count($shipmentsAddresses) == 0) {
                 foreach ($shipment->getAddresses() as $shipmentAddress) {
                     $address = new \stdClass();
                     $address->AddressType = $shipmentAddress->getAddressType();
