@@ -64,7 +64,9 @@ class Converter
         $data->Shipments->Addresses = $shipmentsAddresses;
         $data->Shipments->Barcode = $shipments->getBarcode();
         $data->Shipments->Contacts = $shipmentsContacts;
-        $data->Shipments->DeliveryAddress = $shipments->getDeliveryAddress();
+        if($shipments->getDeliveryAddress() !== null){
+            $data->Shipments->DeliveryAddress = $shipments->getDeliveryAddress();
+        }
         $data->Shipments->ProductCodeDelivery = $shipments->getProductCodeDelivery();
         $data->Shipments->Reference = $shipments->getReference();
         $data->Shipments->Remark = $shipments->getRemark();
@@ -130,7 +132,9 @@ class Converter
             $xshipment->Addresses = $shipmentsAddresses;
             $xshipment->Barcode = $shipment->getBarcode();
             $xshipment->Contacts = $shipmentsContacts;
-            $xshipment->DeliveryAddress = $shipment->getDeliveryAddress();
+            if($shipment->getDeliveryAddress() !== null){
+                $xshipment->DeliveryAddress = $shipment->getDeliveryAddress();
+            }
             $xshipment->ProductCodeDelivery = $shipment->getProductCodeDelivery();
             $xshipment->Reference = $shipment->getReference();
             $xshipment->Remark = $shipment->getRemark();
