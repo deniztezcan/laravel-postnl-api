@@ -64,7 +64,7 @@ class Converter
         $data->Shipments->Addresses = $shipmentsAddresses;
         $data->Shipments->Barcode = $shipments->getBarcode();
         $data->Shipments->Contacts = $shipmentsContacts;
-        if($shipments->getDeliveryAddress() !== null){
+        if ($shipments->getDeliveryAddress() !== null) {
             $data->Shipments->DeliveryAddress = $shipments->getDeliveryAddress();
         }
         $data->Shipments->ProductCodeDelivery = $shipments->getProductCodeDelivery();
@@ -93,7 +93,7 @@ class Converter
         $data->Locations = $locations;
         $data->Days = $days;
         $data->Addresses = $address;
-        
+
         return $data;
     }
 
@@ -155,7 +155,7 @@ class Converter
             $xshipment->Addresses = $shipmentsAddresses;
             $xshipment->Barcode = $shipment->getBarcode();
             $xshipment->Contacts = $shipmentsContacts;
-            if($shipment->getDeliveryAddress() !== null){
+            if ($shipment->getDeliveryAddress() !== null) {
                 $xshipment->DeliveryAddress = $shipment->getDeliveryAddress();
             }
             $xshipment->ProductCodeDelivery = $shipment->getProductCodeDelivery();
