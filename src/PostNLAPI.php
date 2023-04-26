@@ -2,6 +2,7 @@
 
 namespace DenizTezcan\LaravelPostNLAPI;
 
+use Carbon\Carbon;
 use DenizTezcan\LaravelPostNLAPI\Entities\Address;
 use DenizTezcan\LaravelPostNLAPI\Entities\Customer;
 use DenizTezcan\LaravelPostNLAPI\Entities\Group;
@@ -9,7 +10,6 @@ use DenizTezcan\LaravelPostNLAPI\Entities\LabellingMessage;
 use DenizTezcan\LaravelPostNLAPI\Entities\Shipments;
 use DenizTezcan\LaravelPostNLAPI\Services\Client;
 use DenizTezcan\LaravelPostNLAPI\Services\Converter;
-use Carbon\Carbon;
 
 class PostNLAPI
 {
@@ -41,6 +41,7 @@ class PostNLAPI
     public function setCustomer($customer)
     {
         $this->customer = $customer;
+
         return $this;
     }
 
@@ -160,7 +161,7 @@ class PostNLAPI
         $address = [],
     ) {
         $client = new Client();
-        
+
         $data = Converter::checkout(
             Carbon::parse($date)->format('d-m-Y H:i:s'),
             $shippingDuration,
@@ -175,9 +176,9 @@ class PostNLAPI
         $checkout = $client::post('shipment/v1/checkout', $data, $this->customer);
         $response = [
             'delivery' => $checkout['DeliveryOptions'],
-            'pickup' => $checkout['PickupOptions'],
+            'pickup'   => $checkout['PickupOptions'],
         ];
-        
+
         return $response;
     }
 }
