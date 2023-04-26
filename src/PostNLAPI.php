@@ -9,6 +9,7 @@ use DenizTezcan\LaravelPostNLAPI\Entities\LabellingMessage;
 use DenizTezcan\LaravelPostNLAPI\Entities\Shipments;
 use DenizTezcan\LaravelPostNLAPI\Services\Client;
 use DenizTezcan\LaravelPostNLAPI\Services\Converter;
+use Carbon\Carbon;
 
 class PostNLAPI
 {
@@ -146,5 +147,37 @@ class PostNLAPI
         $locations = $client::get('shipment/v2_1/locations/nearest?CountryCode='.$countryCode.'&PostalCode='.$postalCode.'&DeliveryOptions='.$deliveryOptions, $this->customer);
 
         return $locations['GetLocationsResult']['ResponseLocation'];
+    }
+
+    public function checkout(
+        $date,
+        $shippingDuration = 1,
+        $cutOffTimes = [],
+        $holidaySorting = false,
+        $options = [],
+        $locations = 2,
+        $days = 5,
+        $address = [],
+    ) {
+        $client = new Client();
+        
+        $data = Converter::checkout(
+            Carbon::parse($date)->format('d-m-Y H:i:s'),
+            $shippingDuration,
+            $cutOffTimes,
+            $holidaySorting,
+            $options,
+            $locations,
+            $days,
+            $address,
+        );
+
+        $checkout = $client::post('shipment/v1/checkout', $data, $this->customer);
+        $response = [
+            'delivery' => $checkout['DeliveryOptions'],
+            'pickup' => $checkout['PickupOptions'],
+        ];
+        
+        return $response;
     }
 }

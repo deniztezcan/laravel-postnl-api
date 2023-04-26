@@ -74,6 +74,29 @@ class Converter
         return $data;
     }
 
+    public static function checkout(
+        $date,
+        $shippingDuration = 1,
+        $cutOffTimes = [],
+        $holidaySorting = false,
+        $options = [],
+        $locations = 2,
+        $days = 5,
+        $address = [],
+    ) {
+        $data = new \stdClass();
+        $data->OrderDate = $date;
+        $data->ShippingDuration = $shippingDuration;
+        $data->CutOffTimes = $cutOffTimes;
+        $data->HolidaySorting = $holidaySorting;
+        $data->Options = $options;
+        $data->Locations = $locations;
+        $data->Days = $days;
+        $data->Addresses = $address;
+        
+        return $data;
+    }
+
     public static function MultiLabel(
         Customer $customer,
         LabellingMessage $message,
