@@ -82,7 +82,7 @@ class Converter
         $options = [],
         $locations = 2,
         $days = 5,
-        $address = [],
+        $zaddress,
     ) {
         $data = new \stdClass();
         $data->OrderDate = $date;
@@ -92,7 +92,18 @@ class Converter
         $data->Options = $options;
         $data->Locations = $locations;
         $data->Days = $days;
-        $data->Addresses = $address;
+        $Address = new \stdClass();
+        $Address->AddressType = $zaddress->getAddressType();
+        $Address->City = $zaddress->getCity();
+        $Address->CompanyName = $zaddress->getCompanyName();
+        $Address->Countrycode = $zaddress->getCountrycode();
+        $Address->HouseNr = $zaddress->getHouseNr();
+        $Address->HouseNrExt = $zaddress->getHouseNrExt();
+        $Address->Street = $zaddress->getStreet();
+        $Address->Zipcode = $zaddress->getZipcode();
+        $data->Addresses = [$Address];
+
+        return $data;
 
         return $data;
     }

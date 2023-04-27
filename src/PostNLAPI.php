@@ -170,10 +170,15 @@ class PostNLAPI
             $options,
             $locations,
             $days,
-            $address,
+            $address
         );
 
-        $checkout = $client::post('shipment/v1/checkout', $data, $this->customer);
+        try {
+            $checkout = $client::post('shipment/v1/checkout', $data, $this->customer);
+        } catch (\Exception $e) {
+            echo $e->getResponse()->getBody()->getContents();exit;
+        }
+
         $response = [
             'delivery' => $checkout['DeliveryOptions'],
             'pickup'   => $checkout['PickupOptions'],
