@@ -12,6 +12,7 @@ class Shipments extends AbstractEntity
     protected $Reference;
     protected $Remark;
     protected $Groups;
+    protected $ProductOptions;
 
     public function __construct(
         Address $addresses,
@@ -21,7 +22,8 @@ class Shipments extends AbstractEntity
         $productCodeDelivery = 1,
         $reference = '',
         $remark = '',
-        $groups = null
+        $groups = null,
+        $productOptions = null
     ) {
         parent::__construct();
         $this->setAddresses([$addresses]);
@@ -32,5 +34,6 @@ class Shipments extends AbstractEntity
         $this->setReference($reference);
         $this->setRemark($remark);
         $this->setGroups($groups);
+        $this->setProductOptions($productOptions);
     }
 }

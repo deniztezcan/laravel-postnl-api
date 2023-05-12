@@ -63,7 +63,8 @@ class PostNLAPI
         $deliveryAddress,
         $productCodeDelivery,
         $reference,
-        $remark
+        $remark,
+        $productOptions = null,
     ) {
         $client = new Client();
         $data = Converter::Label(
@@ -79,6 +80,8 @@ class PostNLAPI
                 'ProductCodeDelivery'   => $productCodeDelivery,
                 'Reference'             => $reference,
                 'Remark'                => $remark,
+                'Groups'                => null,
+                'ProductOptions'        => $productOptions,
             ])
         );
 
