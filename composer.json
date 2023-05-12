@@ -3,7 +3,7 @@
     "description": "Laravel PostNL API package",
     "type": "library",
     "license": "MIT",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "homepage": "https://github.com/deniztezcan/laravel-postnl-api",
     "authors": [
         {
