@@ -55,6 +55,17 @@ class PostNLAPI
         return $barcode['Barcode'];
     }
 
+    private function overrideCustomer($customer_address)
+    {
+        $this->customer = Customer::create([
+            'CollectionLocation' => config('postnlapi.customer.location'),
+            'CustomerCode'       => config('postnlapi.customer.code'),
+            'CustomerNumber'     => config('postnlapi.customer.number'),
+            'Address'            => $customer_address,
+            'Email'              => config('postnlapi.customer.email'),
+        ]);
+    }
+
     public function generateLabel(
         $barcode,
         $printerType,
@@ -64,8 +75,14 @@ class PostNLAPI
         $productCodeDelivery,
         $reference,
         $remark,
+        $override_customer = null,
         $productOptions = null,
     ) {
+        if($override_customer !== null)
+        {
+            $this->overrideCustomer($override_customer);
+        }
+
         $client = new Client();
         $data = Converter::Label(
             $this->customer,
