@@ -3,7 +3,7 @@
     "description": "Laravel PostNL API package",
     "type": "library",
     "license": "MIT",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "homepage": "https://github.com/deniztezcan/laravel-postnl-api",
     "authors": [
         {
@@ -17,7 +17,7 @@
     "minimum-stability": "stable",
     "require": {
         "guzzlehttp/guzzle": "^6.3|^7.0|^7.7",
-        "illuminate/support": "5.8.*|6.*.*|7.*.*|8.*.*|9.*.*",
+        "illuminate/support": "5.8.*|6.*.*|7.*.*|8.*.*|9.*.*|10.*.*",
         "nesbot/carbon": "^2.16"
     },
     "extra": {
