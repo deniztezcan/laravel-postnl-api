@@ -1,13 +1,13 @@
 <?php
 
-namespace DenizTezcan\LaravelPostNLAPI\Facades;
+namespace DenizTezcan\PostNL\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class PostNLAPI extends Facade
+class PostNL extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'postnlapi';
+        return 'postnl';
     }
 }

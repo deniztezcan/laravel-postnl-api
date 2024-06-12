@@ -3,7 +3,7 @@
     "description": "Laravel PostNL API package",
     "type": "library",
     "license": "MIT",
-    "version": "1.2.3",
+    "version": "4.0.0",
     "homepage": "https://github.com/deniztezcan/laravel-postnl-api",
     "authors": [
         {
@@ -12,21 +12,21 @@
         }
     ],
     "autoload": {
-        "psr-4": { "DenizTezcan\\LaravelPostNLAPI\\" : "src/" }
+        "psr-4": { "DenizTezcan\\PostNL\\" : "src/" }
     },
     "minimum-stability": "stable",
     "require": {
-        "guzzlehttp/guzzle": "^6.3|^7.0|^7.7",
-        "illuminate/support": "5.8.*|6.*.*|7.*.*|8.*.*|9.*.*|10.*.*",
+        "guzzlehttp/guzzle": "^6.3|^7.0|^7.7|^7.8",
+        "illuminate/support": "5.8.*|6.*.*|7.*.*|8.*.*|9.*.*|10.*.*|11.*.*",
         "nesbot/carbon": "^2.16"
     },
     "extra": {
       "laravel": {
         "providers": [
-          "DenizTezcan\\LaravelPostNLAPI\\PostNLAPIServiceProvider"
+          "DenizTezcan\\PostNL\\PostNLServiceProvider"
         ],
         "aliases": {
-          "PostNLAPI": "DenizTezcan\\LaravelPostNLAPI\\Facades\\PostNLAPI"
+          "PostNL": "DenizTezcan\\PostNL\\Facades\\PostNL"
         }
       }
     }
