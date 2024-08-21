@@ -1,8 +1,8 @@
 <?php
 
-namespace DenizTezcan\PostNL\Entities;
+namespace NoPulp\Modules\PostNL\Entities;
 
-use DenizTezcan\PostNL\Http\Client;
+use NoPulp\Modules\PostNL\Http\Client;
 
 class Entity
 {
