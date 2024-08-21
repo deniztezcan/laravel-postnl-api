@@ -36,12 +36,22 @@ class Parcel extends Entity
 
     public array $deliveryLocationAddress = [];
 
+    public string $handOverDate = '';
+
+    public function setHandOverDate(): Parcel
+    {
+        $this->handOverDate = date('Y-m-d');
+
+        return $this;
+    }
+
     public function setReceiverContact(
         string $firstName,
         string $lastName,
         string $telephoneNumber,
         string $email,
         ?string $language = null,
+        ?string $companyName = null,
     ): Parcel {
         $this->receiverContact = [
             'firstName' => $firstName,
@@ -52,6 +62,10 @@ class Parcel extends Entity
 
         if ($language !== null) {
             $this->receiverContact['language'] = $language;
+        }
+
+        if ($companyName !== null) {
+            $this->receiverContact['companyName'] = $companyName;
         }
 
         return $this;
@@ -168,46 +182,60 @@ class Parcel extends Entity
         return $this;
     }
 
-    private function prepareItems(): void
+    private function prepareItems()
     {
         for ($i = 0; $i < $this->itemCount; $i++) {
             $this->items[] = [
-                'label' => [
-                    'outputType' => $this->outputType,
-                    'orientation' => $this->orientation,
-                ],
+                // 'label' => [
+                'barcode' => '',
+                // 'outputType' => $this->outputType,
+                // 'orientation' => $this->orientation,
+                // ],
             ];
         }
     }
 
-    private function prepareData(): void
+    private function prepareData()
     {
         $this->receiver['contact'] = $this->receiverContact;
         $this->receiver['address'] = $this->receiverAddress;
-        $this->returnOptions['returnAddress'] = $this->returnAddress;
+        $this->sender['address'] = $this->returnAddress;
         $this->prepareItems();
 
         $this->data = [
             'receiver' => $this->receiver,
             'sender' => $this->sender,
-            'returnOptions' => $this->returnOptions,
             'itemCount' => $this->itemCount,
             'items' => $this->items,
-            'customerReference' => $this->customerReference,
+            'customerReferences' => [
+                'shipmentReference' => $this->customerReference,
+            ],
             'type' => $this->type,
+            'labelSettings' => [
+                'outputType' => $this->outputType,
+                // 'orientation' => $this->orientation, // TODO Q'n'D FIX TO CHANGE LABEL
+            ],
+            // remove returnoptions
+            'returnOptions' => [
+                'returnAddress' => $this->returnAddress,
+            ],
         ];
 
         if (count($this->services) > 0) {
             $this->data['services'] = $this->services;
         }
 
-        if (isset($this->deliveryLocationAddress['city']) && $this->deliveryLocationAddress['city'] != "") {
+        if (isset($this->deliveryLocationAddress['city']) && $this->deliveryLocationAddress['city'] != '') {
             $this->deliveryLocation['address'] = $this->deliveryLocationAddress;
             $this->data['deliveryLocation'] = $this->deliveryLocation;
         }
+
+        if ($this->handOverDate != '') {
+            $this->data['handOverDate'] = $this->handOverDate;
+        }
     }
 
-    public function send(): array
+    public function send()
     {
         $this->prepareData();
 
@@ -216,3 +244,4 @@ class Parcel extends Entity
         return json_decode($response->getBody()->getContents(), true);
     }
 }
+
